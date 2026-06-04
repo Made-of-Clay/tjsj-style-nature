@@ -6,8 +6,7 @@ export function addLights() {
     const gui = getGui();
     const lightsFolder = gui.addFolder('Lights');
 
-    const ambientLight = new AmbientLight('white', 0.25);
-
+    const ambientLight = new AmbientLight('white', 5);
     lightsFolder.add(ambientLight, 'visible').name('Ambient Light');
 
     const pointLight = new PointLight('white', 20, 100);

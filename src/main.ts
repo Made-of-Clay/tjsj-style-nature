@@ -1,17 +1,11 @@
-import {
-    BoxGeometry,
-    LoadingManager,
-    Mesh,
-    MeshLambertMaterial,
-    PCFSoftShadowMap,
-    WebGLRenderer,
-} from 'three';
+import { LoadingManager, PCFSoftShadowMap, WebGLRenderer } from 'three';
 import Stats from 'stats.js';
 import './style.css';
 import { addLights } from './addLights';
 import { addHelpers } from './addHelpers';
 import { getScene } from './getScene';
 import { ProjectCamera } from './ProjectCamera';
+import { DummyModel } from './DummyModel';
 
 const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
@@ -26,9 +20,12 @@ console.log('loading mngr', loadingManager);
 
 addLights();
 
-// Dummy Object
-// TODO remove this object
-scene.add(new Mesh(new BoxGeometry(1, 1, 1), new MeshLambertMaterial({ color: 'white' })));
+const dummyModel = new DummyModel();
+dummyModel.ready.then(() => {
+    if (dummyModel.model) {
+        scene.add(dummyModel.model);
+    }
+});
 
 const camera = new ProjectCamera(canvas);
 scene.add(camera.instance);

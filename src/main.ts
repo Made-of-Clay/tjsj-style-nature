@@ -21,18 +21,14 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;
 const scene = getScene();
 
-const loadingManager = new LoadingManager(console.log, console.log, console.error)
+const loadingManager = new LoadingManager(console.log, console.log, console.error);
+console.log('loading mngr', loadingManager);
 
 addLights();
 
 // Dummy Object
 // TODO remove this object
-scene.add(
-    new Mesh(
-        new BoxGeometry(1, 1, 1),
-        new MeshLambertMaterial({ color: 'white' }),
-    ),
-);
+scene.add(new Mesh(new BoxGeometry(1, 1, 1), new MeshLambertMaterial({ color: 'white' })));
 
 const camera = new ProjectCamera(canvas);
 scene.add(camera.instance);

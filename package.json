@@ -15,7 +15,8 @@
   "dependencies": {
     "lil-gui": "^0.21.0",
     "stats.js": "^0.17.0",
-    "three": "^0.184.0"
+    "three": "^0.184.0",
+    "tsl-textures": "^3.0.4"
   },
   "devDependencies": {
     "@types/stats": "^0.16.30",

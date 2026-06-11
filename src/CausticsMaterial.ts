@@ -1,5 +1,5 @@
 import { Color, ShaderMaterial } from 'three';
-import causticsVert from './shaders/vangogh/object.vertex.glsl?raw';
+import causticsVert from './shaders/caustics/vertex.glsl?raw';
 import causticsFrag from './shaders/caustics/fragment.glsl?raw';
 
 export class CausticsMaterial extends ShaderMaterial {
@@ -26,7 +26,6 @@ export class CausticsMaterial extends ShaderMaterial {
             transparent: true,
             depthWrite: false,
         });
-        console.log(this);
     }
 
     tick(deltaTime: number): void {

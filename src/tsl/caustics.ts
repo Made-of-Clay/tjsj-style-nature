@@ -1,13 +1,10 @@
+/*
+This is abandoned as I suck at debugging TSL currently.
+Something about an undefined where a string.replace is
+being attempted. Has entirely to do with my use of TSL.
+*/
 import { Color } from 'three';
-import {
-    exp,
-    Fn,
-    positionGeometry,
-    time,
-    vec3,
-    mx_worley_noise_float as voronoi,
-    mx_worley_noise_vec3 as voronoi3,
-} from 'three/tsl';
+import { Fn, positionGeometry, time, vec3 } from 'three/tsl';
 import { NodeBuilder } from 'three/webgpu';
 
 const defaults = {

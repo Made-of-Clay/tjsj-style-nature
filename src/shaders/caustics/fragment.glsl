@@ -1,5 +1,6 @@
 // =============================================
-// Caustics - Ported from Three.js TSL
+// Caustics - Ported from Three.js TSL (b/c I'm 
+// a noob and can't problem-solve TSL yet)
 // Uses standard Worley (cellular) noise
 // =============================================
 

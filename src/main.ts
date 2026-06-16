@@ -1,12 +1,13 @@
-import { Color, LoadingManager, Mesh, PCFSoftShadowMap, Timer, WebGLRenderer } from 'three';
+import { Color, LoadingManager, PCFSoftShadowMap, Timer, WebGLRenderer } from 'three';
 import Stats from 'stats.js';
 import './style.css';
 import { addLights } from './addLights';
 import { addHelpers } from './addHelpers';
 import { getScene } from './getScene';
 import { ProjectCamera } from './ProjectCamera';
-import { DummyModel } from './DummyModel';
+// import { DummyModel } from './DummyModel';
 import { CausticsMaterial } from './CausticsMaterial';
+import { loadScene } from './loadScene';
 
 const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
@@ -28,16 +29,8 @@ const causticMaterial = new CausticsMaterial({
     seed: 0,
 });
 
-// Model
-const dummyModel = new DummyModel();
-dummyModel.ready.then(() => {
-    if (dummyModel.model) {
-        const suzanne = dummyModel.model.getObjectByName('Suzanne');
-        if (suzanne) {
-            (suzanne as Mesh).material = causticMaterial;
-        }
-        scene.add(dummyModel.model);
-    }
+loadScene().then((gltf) => {
+    scene.add(gltf);
 });
 
 const camera = new ProjectCamera(canvas);

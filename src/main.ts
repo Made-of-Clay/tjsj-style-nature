@@ -1,4 +1,4 @@
-import { Color, LoadingManager, PCFSoftShadowMap, Timer, WebGLRenderer } from 'three';
+import { Color, LoadingManager, Mesh, PCFSoftShadowMap, Timer, WebGLRenderer } from 'three';
 import Stats from 'stats.js';
 import './style.css';
 import { addLights } from './addLights';
@@ -29,8 +29,15 @@ const causticMaterial = new CausticsMaterial({
     seed: 0,
 });
 
-loadScene().then((gltf) => {
-    scene.add(gltf);
+const testList = ['Water'];
+loadScene().then((loadedScene) => {
+    loadedScene.traverse((child) => {
+        const mesh = child as Mesh;
+        if (mesh.isMesh && testList.includes(mesh.name)) {
+            mesh.material = causticMaterial;
+        }
+    });
+    scene.add(loadedScene);
 });
 
 const camera = new ProjectCamera(canvas);

@@ -1,4 +1,14 @@
-import { Color, LoadingManager, Mesh, PCFSoftShadowMap, Timer, WebGLRenderer } from 'three';
+import {
+    Color,
+    LoadingManager,
+    Mesh,
+    MeshToonMaterial,
+    PCFSoftShadowMap,
+    SRGBColorSpace,
+    TextureLoader,
+    Timer,
+    WebGLRenderer,
+} from 'three';
 import Stats from 'stats.js';
 import './style.css';
 import { addLights } from './addLights';
@@ -8,6 +18,7 @@ import { ProjectCamera } from './ProjectCamera';
 // import { DummyModel } from './DummyModel';
 import { CausticsMaterial } from './CausticsMaterial';
 import { loadScene } from './loadScene';
+import { getGui } from './getGui';
 
 const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
@@ -22,6 +33,9 @@ void loadingManager; // to remind me it's here and to shut up linter about unuse
 
 addLights();
 
+const gui = getGui();
+const caustic1Folder = gui.addFolder('Caustic 1 Material');
+
 const causticMaterial = new CausticsMaterial({
     scale: 2,
     speed: 0,
@@ -29,12 +43,54 @@ const causticMaterial = new CausticsMaterial({
     seed: 0,
 });
 
+caustic1Folder.add(causticMaterial, 'uScale', 0.1, 10).name('Scale');
+caustic1Folder.add(causticMaterial, 'uSpeed', 0, 5).name('Speed');
+caustic1Folder.addColor(causticMaterial, 'uColor').name('Color');
+caustic1Folder.add(causticMaterial, 'uSeed', 0, 100).name('Seed');
+
+// TODO merge geometry to simplify mesh handling
+// return to this once finished - https://youtu.be/olufmONG7-Q?si=eQdWeHjMMaFuJzs5&t=295
+// const pointsNodeMaterial = new PointsNodeMaterial({
+//     color: new Color(0xff0000),
+// });
+
+const textureLoader = new TextureLoader();
+
+// Reticular veins
+const reticularVeinsTexture = textureLoader.load('/Reticular-veins.jpeg');
+reticularVeinsTexture.colorSpace = SRGBColorSpace;
+
 const testList = ['Water'];
 loadScene().then((loadedScene) => {
     loadedScene.traverse((child) => {
         const mesh = child as Mesh;
-        if (mesh.isMesh && testList.includes(mesh.name)) {
+        if (!mesh.isMesh) return;
+
+        const applyReticularVeinsTexture = (material: unknown) => {
+            const texturedMaterial = material as {
+                map?: typeof reticularVeinsTexture;
+                needsUpdate: boolean;
+            };
+            texturedMaterial.map = reticularVeinsTexture;
+            texturedMaterial.needsUpdate = true;
+        };
+
+        if (testList.includes(mesh.name)) {
             mesh.material = causticMaterial;
+        } else if (mesh.name === 'Crown_1') {
+            console.log(mesh.material);
+        } else if (mesh.name === 'Crown_2') {
+            if (Array.isArray(mesh.material)) {
+                mesh.material.forEach(applyReticularVeinsTexture);
+            } else {
+                applyReticularVeinsTexture(mesh.material);
+            }
+        } else if (mesh.name === 'Landscape') {
+            const toonMaterial = new MeshToonMaterial({
+                color: 0x00bf15,
+                gradientMap: textureLoader.load('/fiveTone.jpg'),
+            });
+            mesh.material = toonMaterial;
         }
     });
     scene.add(loadedScene);

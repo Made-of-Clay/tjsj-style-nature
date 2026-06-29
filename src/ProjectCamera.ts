@@ -18,7 +18,7 @@ export class ProjectCamera {
             0.1,
             1000,
         );
-        this.instance.position.set(2, 2.5, 5.25);
+        this.instance.position.set(18, 3.5, 8.25);
         this.#cameraControls = new OrbitControls(this.instance, canvas);
         this.#cameraControls.enableDamping = true;
 

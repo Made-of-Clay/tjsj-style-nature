@@ -109,6 +109,8 @@ export function convertToPoints(gltf: GLTF): Points {
 
     const meshes: any[] = [];
     gltf.scene.traverse((child) => {
+        // ignore if name is Landscape or Water
+        if (child.name === 'Landscape' || child.name === 'Water') return;
         if (isMesh(child)) meshes.push(child);
     });
     for (const m of meshes) m.parent?.remove(m);

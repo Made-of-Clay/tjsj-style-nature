@@ -23,8 +23,9 @@ export class CausticsMaterial extends ShaderMaterial {
             },
             vertexShader: causticsVert,
             fragmentShader: causticsFrag,
-            transparent: true,
-            depthWrite: false,
+            transparent: false,
+            depthWrite: true,
+            depthTest: true,
         });
     }
 

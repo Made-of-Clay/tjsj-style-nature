@@ -56,35 +56,13 @@ caustic1Folder.add(causticMaterial, 'uSeed', 0, 100).name('Seed');
 
 const textureLoader = new TextureLoader();
 
-// Reticular veins
-const reticularVeinsTexture = textureLoader.load('/Reticular-veins.jpeg');
-reticularVeinsTexture.colorSpace = SRGBColorSpace;
-
-const testList = ['Water'];
 loadScene().then((loadedScene) => {
     loadedScene.traverse((child) => {
         const mesh = child as Mesh;
         if (!mesh.isMesh) return;
 
-        const applyReticularVeinsTexture = (material: unknown) => {
-            const texturedMaterial = material as {
-                map?: typeof reticularVeinsTexture;
-                needsUpdate: boolean;
-            };
-            texturedMaterial.map = reticularVeinsTexture;
-            texturedMaterial.needsUpdate = true;
-        };
-
-        if (testList.includes(mesh.name)) {
+        if (mesh.name === 'Water') {
             mesh.material = causticMaterial;
-        } else if (mesh.name === 'Crown_1') {
-            console.log(mesh.material);
-        } else if (mesh.name === 'Crown_2') {
-            if (Array.isArray(mesh.material)) {
-                mesh.material.forEach(applyReticularVeinsTexture);
-            } else {
-                applyReticularVeinsTexture(mesh.material);
-            }
         } else if (mesh.name === 'Landscape') {
             const toonMaterial = new MeshToonMaterial({
                 color: 0x00bf15,

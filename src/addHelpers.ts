@@ -12,8 +12,10 @@ export function addHelpers() {
 
     const gridHelper = new GridHelper(20, 20, 'teal', 'darkgray');
     gridHelper.position.y = -0.01;
+    gridHelper.visible = false;
     scene.add(gridHelper);
 
     const helpersFolder = gui.addFolder('Helpers');
-    helpersFolder.add(axesHelper, 'visible').name('axes');
+    helpersFolder.add(axesHelper, 'visible').name('Axes');
+    helpersFolder.add(gridHelper, 'visible').name('Grid');
 }

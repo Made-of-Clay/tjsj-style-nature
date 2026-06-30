@@ -4,7 +4,6 @@ import {
     Mesh,
     MeshToonMaterial,
     PCFSoftShadowMap,
-    SRGBColorSpace,
     TextureLoader,
     Timer,
     WebGLRenderer,

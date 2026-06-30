@@ -1,4 +1,4 @@
-import { CanvasTexture, Group, Object3DEventMap, Texture } from 'three';
+import { Group, Object3DEventMap } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { convertToPoints } from './convertToPoints';
 
